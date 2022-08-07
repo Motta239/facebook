@@ -273,7 +273,7 @@ function Post({ id, username, userImg, caption, edited, editTime, timestamp }) {
       )}
 
       {openPhotoModal && (
-        <div className="it-c fixed top-[0px] right-0 left-0 bottom-0 z-50 flex   justify-center bg-neutral-500 bg-opacity-50 ">
+        <div className="it-c name fixed top-[0px] right-0 left-0 bottom-0 z-50 flex   justify-center bg-neutral-500 bg-opacity-50 ">
           <div
             ref={photoRef}
             className="   flex flex-col rounded-md object-contain shadow-xl"
