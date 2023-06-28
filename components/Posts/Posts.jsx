@@ -17,7 +17,7 @@ function Posts() {
         }
       ),
     
-    []
+    [db]
   )
 
   return (
