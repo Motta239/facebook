@@ -5,7 +5,7 @@ import Post from './Post'
 import { SpinnerCircular } from 'spinners-react'
 function Posts() {
   const [posts, setPosts] = useState([])
-
+ 
   // fetching posts from firebase
   useEffect(
     () =>
@@ -13,9 +13,10 @@ function Posts() {
         query(collection(db, 'posts'), orderBy('timestamp', 'desc')),
         (snapshot) => {
           setPosts(snapshot.docs)
+          console.log(snapshot.docs)
         }
       ),
-
+    
     [db]
   )
 
