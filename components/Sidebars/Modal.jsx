@@ -61,6 +61,8 @@ function Modal({ dark }) {
       }
     }
   }
+
+
 const uploadImage = async (e) => {
   try {
     e.preventDefault();
@@ -72,35 +74,17 @@ const uploadImage = async (e) => {
       timestamp: serverTimestamp(),
     });
 
-    if (imagesUrl.length >= 1) {
-      await Promise.all(imagesUrl.map(async (imageUrl, i) => {
-        const imageRef = ref(storage, `posts/${docRef.id}/image${i}`);
-        const snapshot = await uploadString(imageRef, imageUrl, 'data_url');
-        const downloadURL = await getDownloadURL(imageRef);
-        await addDoc(collection(db, 'posts', docRef.id, 'images'), {
-          image: downloadURL,
-        });
-      });
-    }
 
-    if (youtubeSrc.length > 5) {
-      const washingtonRef = doc(db, 'posts', docRef.id);
-      await updateDoc(washingtonRef, {
-        src: youtubeSrc,
-      });
-    }
-
-  
   } catch (error) {
     console.error("An error occurred while uploading images:", error);
-    // Handle the error, display a message, or log it as needed.
+
   } finally {
-   setImagesUrl([]);
+
     setName(false);
+    setOpenPostWindow(false);
+      setText("")
     
   }
-  setOpenPostWindow(false);
-    setText("")
 };
 
 const removeImage = () => {
