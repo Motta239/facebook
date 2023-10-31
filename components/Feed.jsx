@@ -8,8 +8,8 @@ function Feed() {
   const { data: session } = useSession()
   const [dark, setDark] = useRecoilState(darkMode)
   return (
-    <div className="flex-grow  overflow-y-auto pt-6 lg:mr-6 xl:mr-[22px] ">
-      <div className="mx-auto w-[360px] transition-all duration-1000 ease-out md:w-[500px] md:max-w-lg lg:w-auto lg:max-w-2xl">
+    <div className="flex-grow  flex justify-center overflow-y-auto pt-6 lg:mr-6 xl:mr-[22px] ">
+      <div className="mx-auto w-[90vw]  transition-all duration-1000 ease-out   lg:w-auto lg:max-w-2xl">
         <Stories />
         {session && <InputBox dark={dark} />}
         <Posts dark={dark} />
