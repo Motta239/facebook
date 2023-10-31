@@ -1,15 +1,4 @@
 import {
-  ChatAlt2Icon,
-  ChatIcon,
-  DotsHorizontalIcon,
-  HeartIcon,
-} from '@heroicons/react/outline'
-import {
-  ArrowCircleRightIcon,
-  HeartIcon as HeartIconFilled,
-} from '@heroicons/react/solid'
-import MarkChatUnreadTwoToneIcon from '@mui/icons-material/MarkChatUnreadTwoTone'
-import {
   addDoc,
   collection,
   deleteDoc,
@@ -23,22 +12,33 @@ import {
 } from 'firebase/firestore'
 import ReplySharpIcon from '@mui/icons-material/ReplySharp'
 import { signIn, signOut, useSession } from 'next-auth/react'
+import { useEffect, useState, useRef } from 'react'
+import { db, storage } from '../../firebase'
+import Moment from 'react-moment'
+import {
+  ChatAlt2Icon,
+  ChatIcon,
+  DotsHorizontalIcon,
+  HeartIcon,
+} from '@heroicons/react/outline'
+import {
+  ArrowCircleRightIcon,
+  HeartIcon as HeartIconFilled,
+} from '@heroicons/react/solid'
+import MarkChatUnreadTwoToneIcon from '@mui/icons-material/MarkChatUnreadTwoTone'
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
-import { useEffect, useState, useRef } from 'react'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SettingsIcon from '@mui/icons-material/Settings'
-import { db, storage } from '../../firebase'
-import Moment from 'react-moment'
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined'
 import BookmarkOutlinedIcon from '@mui/icons-material/BookmarkOutlined'
+import { BiComment, BiCommentAdd, BiMessageEdit } from 'react-icons/bi'
+import { MdComment, MdInsertComment } from 'react-icons/md'
 import { useRecoilState } from 'recoil'
 import { contactId } from '../../atoms/contactId'
 import InputEmoji from 'react-input-emoji'
 import { darkMode } from '../../atoms/darkMode'
-import { BiComment, BiCommentAdd, BiMessageEdit } from 'react-icons/bi'
-import { MdComment, MdInsertComment } from 'react-icons/md'
 function Post({ id, username, userImg, caption, edited, editTime, timestamp }) {
   const { data: session } = useSession()
   const [{ email, name }, setContactId] = useRecoilState(contactId)
@@ -147,6 +147,7 @@ function Post({ id, username, userImg, caption, edited, editTime, timestamp }) {
   const deletePost = async () => {
     await deleteDoc(doc(db, 'posts', id))
     await deleteDoc(doc(db, 'posts', id, 'likes', session.user.uid))
+     setOpen(false)
   }
   const sendComment = async (e) => {
     const commentToSend = comment
@@ -157,7 +158,7 @@ function Post({ id, username, userImg, caption, edited, editTime, timestamp }) {
       userImage: session.user.image,
       timestamp: serverTimestamp(),
     })
-    setOpen(false)
+
   }
 
   return (
