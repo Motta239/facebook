@@ -157,6 +157,7 @@ function Post({ id, username, userImg, caption, edited, editTime, timestamp }) {
       userImage: session.user.image,
       timestamp: serverTimestamp(),
     })
+    setOpen(false)
   }
 
   return (
