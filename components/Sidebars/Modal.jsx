@@ -97,8 +97,10 @@ const uploadImage = async (e) => {
   } finally {
    setImagesUrl([]);
     setName(false);
-    setOpenPostWindow(false);
+    
   }
+  setOpenPostWindow(false);
+    setText("")
 };
 
 const removeImage = () => {
