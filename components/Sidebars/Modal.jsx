@@ -64,6 +64,9 @@ function Modal({ dark }) {
 
 
 const uploadImage = async (e) => {
+     setName(false);
+    setOpenPostWindow(false);
+      setText("")
   try {
     e.preventDefault();
 
@@ -80,9 +83,7 @@ const uploadImage = async (e) => {
 
   } finally {
 
-    setName(false);
-    setOpenPostWindow(false);
-      setText("")
+ 
     
   }
 };
