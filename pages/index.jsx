@@ -18,10 +18,12 @@ function Home() {
         <link rel="icon" href="/icons8-facebook.svg" />
       </Head>
 
-      <div className=" relative flex items-center lg:space-x-2">
+      <div className=" relative flex hidden lg:flex items-center lg:space-x-2">
         <Sidebar />
-        <Feed />
       </div>
+      <div className=" items-center w-screen lg:w-fit ">
+        <Feed />
+        </div>
       {<Messanger />}
       {openPostWindow && <Modal />}
     </div>
