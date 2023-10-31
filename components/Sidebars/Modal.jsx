@@ -61,55 +61,57 @@ function Modal({ dark }) {
       }
     }
   }
-  const uploadImage = async (e) => {
-    e.preventDefault()
+const uploadImage = async (e) => {
+  try {
+    e.preventDefault();
 
     const docRef = await addDoc(collection(db, 'posts'), {
       username: session.user.name,
       caption: text,
       profileImg: session.user.image,
       timestamp: serverTimestamp(),
-    })
+    });
+
     if (imagesUrl.length >= 1) {
-      imagesUrl.map(async (imageUrl, i) => {
-        const imageRef = ref(storage, `posts/${docRef.id}/image${i}`)
-        await uploadString(imageRef, imageUrl, 'data_url').then(
-          async (snapshot) => {
-            const downloadURL = await getDownloadURL(imageRef)
-            await addDoc(collection(db, 'posts', docRef.id, 'images'), {
-              image: downloadURL,
-            })
-          }
-        )
-      })
-
-      // console.log('New doc added with ID', docRef.id)
-
-      setImagesUrl([])
-      setName(false)
-      setOpenPostWindow(false)
+      await Promise.all(imagesUrl.map(async (imageUrl, i) => {
+        const imageRef = ref(storage, `posts/${docRef.id}/image${i}`);
+        const snapshot = await uploadString(imageRef, imageUrl, 'data_url');
+        const downloadURL = await getDownloadURL(imageRef);
+        await addDoc(collection(db, 'posts', docRef.id, 'images'), {
+          image: downloadURL,
+        });
+      });
     }
+
     if (youtubeSrc.length > 5) {
-      const washingtonRef = doc(db, 'posts', docRef.id)
+      const washingtonRef = doc(db, 'posts', docRef.id);
       await updateDoc(washingtonRef, {
         src: youtubeSrc,
-      })
+      });
     }
-    setImagesUrl([])
-    setName(false)
-    setOpenPostWindow(false)
-  }
 
-  const removeImage = () => {
-    setImagesUrl([])
-    setName(false)
+  
+  } catch (error) {
+    console.error("An error occurred while uploading images:", error);
+    // Handle the error, display a message, or log it as needed.
+  } finally {
+   setImagesUrl([]);
+    setName(false);
+    setOpenPostWindow(false);
   }
-  const removeImageUrl = (idx) => {
-    const temp = [...imagesUrl]
+};
 
-    temp.splice(idx, 1)
-    setImagesUrl(temp)
-  }
+const removeImage = () => {
+  setImagesUrl([]);
+  setName(false);
+};
+
+const removeImageUrl = (idx) => {
+  const temp = [...imagesUrl];
+  temp.splice(idx, 1);
+  setImagesUrl(temp);
+};
+
 
   return (
     <div className="fixed top-[68px] right-0 left-0 bottom-0 z-50 flex items-center justify-center bg-neutral-500 bg-opacity-30">
